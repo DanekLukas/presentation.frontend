@@ -1,0 +1,1 @@
+yarn build;rm -rf /mnt/ext/home/lukas/workspace/php/presentation/public/static/;cp -r build/static /mnt/ext/home/lukas/workspace/php/presentation/public/;find /mnt/ext/home/lukas/workspace/php/presentation/public/static -type f -name *map -exec rm {} +

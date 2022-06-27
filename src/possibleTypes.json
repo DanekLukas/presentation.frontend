@@ -1,0 +1,57 @@
+{
+  "Node": [
+    "School",
+    "Teacher",
+    "FuAdmin",
+    "SchoolReport",
+    "PublicSchool",
+    "Company",
+    "Manager",
+    "CompanyReport",
+    "PublicCompany",
+    "CompanyService"
+  ],
+  "UserInterface": [
+    "Teacher",
+    "FuAdmin",
+    "Manager"
+  ],
+  "InstitutionInterface": [
+    "School",
+    "Company"
+  ],
+  "PublicUserInterface": [
+    "Teacher",
+    "Manager"
+  ],
+  "RegisteredUserInterface": [
+    "Teacher",
+    "Manager"
+  ],
+  "SchoolReportActivity": [
+    "SchoolReportComment",
+    "SchoolReportAuditLog"
+  ],
+  "SchoolReportFollowUpActivity": [
+    "SchoolReportFollowUpComment",
+    "SchoolReportComment",
+    "SchoolReportAuditLog"
+  ],
+  "SchoolReportFollowUpCommentAuthor": [
+    "SchoolVictim",
+    "Teacher"
+  ],
+  "CompanyReportInternalActivity": [
+    "CompanyReportInternalComment",
+    "CompanyReportAuditLog"
+  ],
+  "CompanyReportFollowUpActivity": [
+    "CompanyReportFollowUpComment",
+    "CompanyReportInternalComment",
+    "CompanyReportAuditLog"
+  ],
+  "CompanyReportFollowUpCommentAuthor": [
+    "CompanyVictim",
+    "Manager"
+  ]
+}
