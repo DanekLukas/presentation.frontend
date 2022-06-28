@@ -4,6 +4,7 @@ import { gql, useQuery } from '@apollo/client'
 import { setMessage } from '../components/Message/messageActionCreators'
 import { useDispatch } from 'react-redux'
 import React, { useContext, useEffect, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 type ArticleRow = { id: number; title: string; content: string; links: string }
 
@@ -58,7 +59,7 @@ const Article = () => {
       {keptData.map((item, index) => (
         <Paragraph key={index}>
           <Title>{item.title}</Title>
-          <Text>{item.content}</Text>
+          <ReactMarkdown>{item.content}</ReactMarkdown>
           <Link>{item.links}</Link>
         </Paragraph>
       ))}

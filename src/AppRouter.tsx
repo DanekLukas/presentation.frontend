@@ -2,7 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import { UserContext } from './contexts/UserContext'
 import Article from './Pages/Article'
 import Articles from './Pages/Articles'
-import ArticlesBase from './Pages/ArticlesBase'
 import ChangePassword from './Pages/ChangePassword'
 import ForgottenPassword from './Pages/ForgottenPassword'
 import Header from './Pages/Header'
@@ -34,26 +33,15 @@ const AppRouter = () => {
             }
           />
           {isLoggedIn && isAdmin && (
-            <>
-              <Route
-                path='/articles'
-                element={
-                  <>
-                    <Header />
-                    <Articles />
-                  </>
-                }
-              />
-              <Route
-                path='/base'
-                element={
-                  <>
-                    <Header />
-                    <ArticlesBase />
-                  </>
-                }
-              />
-            </>
+            <Route
+              path='/articles'
+              element={
+                <>
+                  <Header />
+                  <Articles />
+                </>
+              }
+            />
           )}
           {isLoggedIn && (
             <Route
