@@ -1,5 +1,5 @@
 import { Button, Form, Input } from 'antd'
-import { LanguageContext } from '../Contexts/LanguageContext'
+import { LanguageContext } from '../contexts/LanguageContext'
 import { gql, useMutation } from '@apollo/client'
 import { setMessage } from '../components/Message/messageActionCreators'
 import { useDispatch } from 'react-redux'

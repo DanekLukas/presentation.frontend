@@ -1,6 +1,6 @@
 import { DownOutlined } from '@ant-design/icons'
 import { Dropdown, Menu } from 'antd'
-import { LanguageContext } from '../Contexts/LanguageContext'
+import { LanguageContext } from '../contexts/LanguageContext'
 import { Typography } from 'antd'
 import React, { useContext } from 'react'
 

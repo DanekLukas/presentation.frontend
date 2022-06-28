@@ -29,6 +29,7 @@
   "action": "Action",
   "edit": "Edit",
   "delete": "Delete",
+  "insert": "Insert",
   "save": "Save",
   "new": "New",
   "passwordNotValid": "Email or password is not valid",
@@ -41,5 +42,7 @@
   "emailSentRegistration": "There was an email for setting a password sent to __email__ email address.",
   "emailSentForReset": "There was an email for setting a password sent to __email__ email address.",
   "forgottenPassword": "Forgotten password",
-  "noArticle": "There is no text for this language yet."
+  "noArticle": "There is no text for this language yet.",
+  "markRecords": "Mark records"
+
 }

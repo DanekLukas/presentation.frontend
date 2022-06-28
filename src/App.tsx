@@ -5,8 +5,8 @@ import { Global, css } from '@emotion/react'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import AppRouter from './AppRouter'
-import LanguageProvider from './Contexts/LanguageProvider'
-import UserProvider from './Contexts/UserProvider'
+import LanguageProvider from './contexts/LanguageProvider'
+import UserProvider from './contexts/UserProvider'
 import rootReducer from './components/rootReducer'
 
 const httpLink = new HttpLink({

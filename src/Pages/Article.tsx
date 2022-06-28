@@ -1,4 +1,4 @@
-import { LanguageContext } from '../Contexts/LanguageContext'
+import { LanguageContext } from '../contexts/LanguageContext'
 import { Typography } from 'antd'
 import { gql, useQuery } from '@apollo/client'
 import { setMessage } from '../components/Message/messageActionCreators'

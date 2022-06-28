@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { LanguageContext } from '../Contexts/LanguageContext'
-import { UserContext } from '../Contexts/UserContext'
+import { LanguageContext } from '../contexts/LanguageContext'
+import { UserContext } from '../contexts/UserContext'
 import { useContext } from 'react'
 
 const Logged = () => {

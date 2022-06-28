@@ -29,6 +29,7 @@
   "action": "Akce",
   "edit": "Upravit",
   "delete": "Smazat",
+  "insert": "Vložit",
   "save": "Uložit",
   "new": "Nový",
   "passwordNotValid": "Jméno nebo heslo není správné",
@@ -40,5 +41,6 @@
   "newPassword": "Nové heslo",
   "emailSentRegistration": "Na adresu __email__ byl odeslána zpráva s odkazem pro nastavení hesla.",
   "emailSentForReset": "Na adresu __email__ byl odeslána zpráva s odkazem pro nastavení hesla.",
-  "forgottenPassword": "Zapomenuté heslo"
+  "forgottenPassword": "Zapomenuté heslo",
+  "markRecords": "záznamy"
 }

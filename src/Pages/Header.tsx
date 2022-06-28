@@ -1,7 +1,7 @@
-import { LanguageContext } from '../Contexts/LanguageContext'
+import { LanguageContext } from '../contexts/LanguageContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { Menu, Typography } from 'antd'
-import { UserContext } from '../Contexts/UserContext'
+import { UserContext } from '../contexts/UserContext'
 import Language from './Language'
 import Logged from './Logged'
 import Message from '../components/Message'
@@ -60,9 +60,14 @@ const Header = () => {
           </>
         )}
         {isAdmin && (
-          <Menu.Item key={'registration_menu_04'}>
-            <Link to='/articles'>{getExpression('header.articles')}</Link>
-          </Menu.Item>
+          <>
+            <Menu.Item key={'registration_menu_04'}>
+              <Link to='/articles'>{getExpression('header.articles')}</Link>
+            </Menu.Item>
+            <Menu.Item key={'registration_menu_05'}>
+              <Link to='/base'>{getExpression('header.articles')}</Link>
+            </Menu.Item>
+          </>
         )}
       </Menu>
     </>

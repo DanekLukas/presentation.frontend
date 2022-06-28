@@ -1,4 +1,4 @@
-import { LanguageContext } from '../Contexts/LanguageContext'
+import { LanguageContext } from './LanguageContext'
 import { UserContext } from './UserContext'
 import { gql, useMutation } from '@apollo/client'
 import { setMessage } from '../components/Message/messageActionCreators'
