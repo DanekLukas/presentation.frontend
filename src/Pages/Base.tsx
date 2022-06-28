@@ -1,18 +1,37 @@
-import { Button, Form, Input, Table } from 'antd'
+import { Button, Form, Input, Select, Table } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { setMessage } from '../components/Message/messageActionCreators'
 import { useDispatch } from 'react-redux'
 import React, { useContext, useEffect, useState } from 'react'
 
+export type EnteredT = {
+  title: string
+  inputType: string | {}
+  initValue: string | number | undefined
+}
+
 type Props = {
-  columns: {}
+  columns: Record<string, EnteredT>
   table: string
   readProc: string
 }
 
-const Base = ({ columns, table, readProc }: Props) => {
+const Base = ({ columns: allColumns, table, readProc }: Props) => {
   const { getExpression } = useContext(LanguageContext)
+  const { Option } = Select
+
+  const keysS = Object.keys(allColumns)
+
+  const columns: Record<string, string | number> = {}
+  const initValue: Record<string, string | number | undefined> = { id: undefined }
+  const inputType: Record<string, string | {}> = {}
+
+  keysS.forEach((key: string) => {
+    columns[key] = allColumns[key].title
+    inputType[key] = allColumns[key].inputType
+    initValue[key] = allColumns[key].initValue
+  })
 
   const columnsI = { ...{ id: 0 }, ...columns }
 
@@ -20,7 +39,6 @@ const Base = ({ columns, table, readProc }: Props) => {
 
   const dispatch = useDispatch()
 
-  const keysS = Object.keys(columns)
   const keys = Object.keys(columnsI)
 
   const query = {
@@ -35,12 +53,13 @@ const Base = ({ columns, table, readProc }: Props) => {
         }
       }
     `,
-    // getData: gql`
-    //   query item($id: Int) {
-    //     ${table}(id: $id) {
-    //       ${keys.map(item => `values[${item}]: ${item}`).join(`\n`)}
-    //   }
-    // `,
+    getData: gql`
+      query item($id: Int) {
+        get${table}(id: $id) {
+          ${keys.map(item => `${item}: ${item}`).join(`\n`)}
+      }
+    }
+    `,
   }
 
   const mutation = {
@@ -110,9 +129,20 @@ const Base = ({ columns, table, readProc }: Props) => {
     },
   })
 
+  const { refetch: refetchEdit } = useQuery(query.getData, {
+    skip: true,
+    onCompleted: data => {
+      const ret: typeof initValue = {}
+      keys.forEach(key => {
+        ret[key] = data[`get${table}`][key as keyof typeof data] || initValue[key]
+      })
+      setInputValues(ret)
+    },
+  })
+
   const [enterItem] = useMutation(mutation.enterItem, {
     onError: error => {
-      console.error(error)
+      dispatch(setMessage(error.message))
     },
     onCompleted: enterData => {
       const got = processReturnData(enterData[`Enter${table}`])
@@ -125,7 +155,7 @@ const Base = ({ columns, table, readProc }: Props) => {
 
   const [updateItem] = useMutation(mutation.updateItem, {
     onError: error => {
-      console.error(error)
+      dispatch(setMessage(error.message))
     },
     onCompleted: ItemData => {
       processReturnData(ItemData[`Update${table}`])
@@ -135,7 +165,7 @@ const Base = ({ columns, table, readProc }: Props) => {
 
   const [deleteItem] = useMutation(mutation.deleteItem, {
     onError: error => {
-      console.error(error)
+      dispatch(setMessage(error.message))
     },
     onCompleted: ItemData => {
       processReturnData(ItemData[`Delete${table}`])
@@ -144,17 +174,13 @@ const Base = ({ columns, table, readProc }: Props) => {
   })
 
   const resetEdit = () => {
-    const tmp = {} as any
-    keys.forEach(key => {
-      tmp[key as keyof typeof columnsI] = key === 'id' ? undefined : ''
-    })
-    setInputValues(tmp)
+    setInputValues(initValue)
   }
 
-  const [inputValues, setInputValues] = useState<typeof columnsI>()
+  const [inputValues, setInputValues] = useState(initValue)
 
   const setSpecificInputValue = (key: string, value: string) => {
-    const tmp = { ...inputValues } as any
+    const tmp = { ...inputValues } as typeof initValue
     tmp[key as keyof typeof tmp] = value
     setInputValues(tmp)
   }
@@ -163,6 +189,15 @@ const Base = ({ columns, table, readProc }: Props) => {
     return (
       (baseval as Array<typeof columnsI>).find(elm => elm['id' as keyof typeof elm] === id) as any
     )[key]
+  }
+
+  const getValuesToSend = (record: typeof inputValues) => {
+    const ret: typeof initValue = {}
+    const recordKeys = Object.keys(record)
+    keys.forEach(key => {
+      ret[key] = recordKeys.includes(key) ? record[key as keyof typeof record] : initValue[key]
+    })
+    return ret
   }
 
   const handleDelete = (id: number) => {
@@ -177,7 +212,7 @@ const Base = ({ columns, table, readProc }: Props) => {
 
   const handleUpdate = () => {
     updateItem({
-      variables: inputValues,
+      variables: getValuesToSend(inputValues),
     })
   }
 
@@ -185,7 +220,7 @@ const Base = ({ columns, table, readProc }: Props) => {
     const tmp = { ...inputValues }
     delete tmp.id
     enterItem({
-      variables: tmp,
+      variables: getValuesToSend(tmp),
     })
   }
 
@@ -200,7 +235,7 @@ const Base = ({ columns, table, readProc }: Props) => {
         onRow={(record, rowIndex) => {
           return {
             onClick: event => {
-              setInputValues(record)
+              refetchEdit({ id: record.id })
               setId(record.id)
             },
           }
@@ -236,12 +271,49 @@ const Base = ({ columns, table, readProc }: Props) => {
                 label={columns[key as keyof typeof columns]}
                 hidden={key === 'id'}
               >
-                <Input
-                  onChange={({ target: { value } }) => {
-                    setSpecificInputValue(key, value)
-                  }}
-                  value={(inputValues && inputValues[key as keyof typeof inputValues]) || ''}
-                />
+                {inputType[key] === 'input' && (
+                  <Input
+                    onChange={({ target: { value } }) => {
+                      setSpecificInputValue(key, value)
+                    }}
+                    value={
+                      (inputValues && inputValues[key as keyof typeof inputValues]) ||
+                      initValue[key]
+                    }
+                  />
+                )}
+                {inputType[key] === 'textArea' && (
+                  <Input.TextArea
+                    onChange={({ target: { value } }) => {
+                      setSpecificInputValue(key, value)
+                    }}
+                    value={
+                      (inputValues && inputValues[key as keyof typeof inputValues]) ||
+                      initValue[key]
+                    }
+                  />
+                )}
+                {typeof inputType[key] === 'object' &&
+                  Object.keys(inputType[key]).includes('select') && (
+                    <Select
+                      defaultValue={allColumns[key].initValue}
+                      onChange={(value: string) => {
+                        setSpecificInputValue(key, value)
+                      }}
+                      value={
+                        (inputValues && inputValues[key as keyof typeof inputValues]) ||
+                        allColumns[key].initValue
+                      }
+                    >
+                      {(allColumns.language.inputType as { select: [] })['select'].map(
+                        (option, index) => (
+                          <Option key={index} value={option}>
+                            {option}
+                          </Option>
+                        )
+                      )}
+                    </Select>
+                  )}
               </Form.Item>
             </div>
           ))}
@@ -260,7 +332,7 @@ const Base = ({ columns, table, readProc }: Props) => {
                   <Button
                     className='gradient-bkg use-margin-left'
                     onClick={async () => {
-                      handleDelete(inputValues.id)
+                      handleDelete(inputValues.id as number)
                     }}
                   >
                     {getExpression('delete')}

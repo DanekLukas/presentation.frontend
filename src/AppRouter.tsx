@@ -1,9 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import { LanguageContext } from './contexts/LanguageContext'
 import { UserContext } from './contexts/UserContext'
 import Article from './Pages/Article'
 import Articles from './Pages/Articles'
-import Base from './Pages/Base'
+import ArticlesBase from './Pages/ArticlesBase'
 import ChangePassword from './Pages/ChangePassword'
 import ForgottenPassword from './Pages/ForgottenPassword'
 import Header from './Pages/Header'
@@ -13,7 +12,6 @@ import Registration from './Pages/Registration'
 import SetPassword from './Pages/SetPassword'
 
 const AppRouter = () => {
-  const { getExpression } = useContext(LanguageContext)
   const { email, inRole } = useContext(UserContext)
   const [isLoggedIn, setIsLoggedIn] = useState(email !== '')
   const [isAdmin, setIsAdmin] = useState(inRole('ROLE_ADMIN'))
@@ -51,17 +49,7 @@ const AppRouter = () => {
                 element={
                   <>
                     <Header />
-                    <Base
-                      columns={{
-                        title: getExpression('title'),
-                        content: getExpression('content'),
-                        language: getExpression('language'),
-                        markRecords: getExpression('markRecords'),
-                        links: getExpression('links'),
-                      }}
-                      table='Article'
-                      readProc='allArticlesCut'
-                    />
+                    <ArticlesBase />
                   </>
                 }
               />
