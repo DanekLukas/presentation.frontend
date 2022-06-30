@@ -1,9 +1,10 @@
-import { Button, Form, Input, Select, Table } from 'antd'
+import { Button, DatePicker, Form, Input, Select, Space, Table } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { setMessage } from '../components/Message/messageActionCreators'
 import { useDispatch } from 'react-redux'
 import React, { useContext, useEffect, useState } from 'react'
+import moment, { Moment } from 'moment'
 
 export type EnteredT = {
   title: string
@@ -20,12 +21,16 @@ type Props = {
 const Base = ({ columns: allColumns, table, readProc }: Props) => {
   const { getExpression } = useContext(LanguageContext)
   const { Option } = Select
+  const { RangePicker } = DatePicker
 
   const keysS = Object.keys(allColumns)
 
   const columns: Record<string, string | number> = {}
   const initValue: Record<string, string | number | undefined> = { id: undefined }
   const inputType: Record<string, string | {}> = {}
+
+  const dateFormat = 'YYYY-MM-DD'
+  const displayDateFormat = getExpression('dateFormat')
 
   keysS.forEach((key: string) => {
     columns[key] = allColumns[key].title
@@ -96,8 +101,6 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
     `,
   }
 
-  const [tableOrderBy, setTableOrderBy] = useState('id')
-
   const [baseval, setBaseval] = useState<Array<typeof columnsI>>([])
 
   const processReturnData = <T extends typeof columnsI>(inputData: {
@@ -146,9 +149,11 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
     },
     onCompleted: enterData => {
       const got = processReturnData(enterData[`Enter${table}`])
-      if (got.hasOwnProperty('id') && got.id > 0) {
-        setSpecificInputValue('id', got.id.toString())
+      if (got?.id > 0) {
+        setSpecificInputValue('id', got.id)
         refetchData()
+      } else {
+        dispatch(setMessage(getExpression('DataNotEntered')))
       }
     },
   })
@@ -179,7 +184,7 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
 
   const [inputValues, setInputValues] = useState(initValue)
 
-  const setSpecificInputValue = (key: string, value: string) => {
+  const setSpecificInputValue = (key: string, value: string | number) => {
     const tmp = { ...inputValues } as typeof initValue
     tmp[key as keyof typeof tmp] = value
     setInputValues(tmp)
@@ -225,9 +230,8 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
   }
 
   useEffect(() => {
-    resetEdit()
-    refetchData({ orderBy: tableOrderBy })
-  }, [refetchData, tableOrderBy])
+    refetchData({ orderBy: 'id' })
+  }, [refetchData])
 
   return (
     <>
@@ -264,59 +268,97 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
       />
       <div className='use-margin-bottom'>
         <Form layout='inline' className='display-flex-column form-item'>
-          {Object.keys(columns).map((key, index) => (
-            <div className='use-margin-bottom' key={index}>
-              <Form.Item
-                style={{ width: '20em' }}
-                label={columns[key as keyof typeof columns]}
-                hidden={key === 'id'}
-              >
-                {inputType[key] === 'input' && (
-                  <Input
-                    onChange={({ target: { value } }) => {
-                      setSpecificInputValue(key, value)
-                    }}
-                    value={
-                      (inputValues && inputValues[key as keyof typeof inputValues]) ||
-                      initValue[key]
-                    }
-                  />
-                )}
-                {inputType[key] === 'textArea' && (
-                  <Input.TextArea
-                    onChange={({ target: { value } }) => {
-                      setSpecificInputValue(key, value)
-                    }}
-                    value={
-                      (inputValues && inputValues[key as keyof typeof inputValues]) ||
-                      initValue[key]
-                    }
-                  />
-                )}
-                {typeof inputType[key] === 'object' &&
-                  Object.keys(inputType[key]).includes('select') && (
-                    <Select
-                      defaultValue={allColumns[key].initValue}
-                      onChange={(value: string) => {
+          {Object.keys(columns).map((key, index) =>
+            typeof inputType[key] === 'object' &&
+            Object.keys(inputType[key]).includes('rangePicker') &&
+            (
+              inputType[key] as {
+                rangePicker: Array<string>
+              }
+            )['rangePicker'][1] === key ? null : (
+              <div className='use-margin-bottom' key={index}>
+                <Form.Item
+                  className='form-width'
+                  label={columns[key as keyof typeof columns]}
+                  hidden={key === 'id'}
+                >
+                  {inputType[key] === 'input' && (
+                    <Input
+                      onChange={({ target: { value } }) => {
                         setSpecificInputValue(key, value)
                       }}
                       value={
                         (inputValues && inputValues[key as keyof typeof inputValues]) ||
-                        allColumns[key].initValue
+                        initValue[key]
                       }
-                    >
-                      {(allColumns.language.inputType as { select: [] })['select'].map(
-                        (option, index) => (
-                          <Option key={index} value={option}>
-                            {option}
-                          </Option>
-                        )
-                      )}
-                    </Select>
+                    />
                   )}
-              </Form.Item>
-            </div>
-          ))}
+                  {inputType[key] === 'textArea' && (
+                    <Input.TextArea
+                      onChange={({ target: { value } }) => {
+                        setSpecificInputValue(key, value)
+                      }}
+                      value={
+                        (inputValues && inputValues[key as keyof typeof inputValues]) ||
+                        initValue[key]
+                      }
+                    />
+                  )}
+                  {typeof inputType[key] === 'object' &&
+                    Object.keys(inputType[key]).includes('rangePicker') &&
+                    (
+                      inputType[key] as {
+                        rangePicker: Array<string>
+                      }
+                    )['rangePicker'][0] === key && (
+                      <Space direction='vertical' size={12}>
+                        <RangePicker
+                          onChange={(dates: [Moment, Moment], dateStrings: [string, string]) => {
+                            const tmp = { ...inputValues } as typeof initValue
+                            for (const pos of [0, 1]) {
+                              tmp[
+                                (
+                                  inputType[key] as {
+                                    rangePicker: Array<string>
+                                  }
+                                )['rangePicker'][pos]
+                              ] = dates[pos].format(dateFormat)
+                              setInputValues(tmp)
+                            }
+                          }}
+                          defaultValue={[
+                            moment(allColumns[key].initValue, dateFormat),
+                            moment(allColumns[key].initValue, dateFormat),
+                          ]}
+                          format={displayDateFormat}
+                        />
+                      </Space>
+                    )}
+                  {typeof inputType[key] === 'object' &&
+                    Object.keys(inputType[key]).includes('select') && (
+                      <Select
+                        defaultValue={allColumns[key].initValue}
+                        onChange={(value: string) => {
+                          setSpecificInputValue(key, value)
+                        }}
+                        value={
+                          (inputValues && inputValues[key as keyof typeof inputValues]) ||
+                          allColumns[key].initValue
+                        }
+                      >
+                        {(allColumns.language.inputType as { select: [] })['select'].map(
+                          (option, index) => (
+                            <Option key={index} value={option}>
+                              {option}
+                            </Option>
+                          )
+                        )}
+                      </Select>
+                    )}
+                </Form.Item>
+              </div>
+            )
+          )}
           <div className='display-flex-row'>
             <Button
               className='gradient-bkg'
@@ -341,12 +383,7 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
                     className='gradient-bkg use-margin-left'
                     onClick={() => {
                       setId(undefined)
-                      const keys = Object.keys(columns)
-                      const tmp = {} as any
-                      keys.forEach(key => {
-                        tmp[key as keyof typeof keys] = key === 'id' ? undefined : ''
-                      })
-                      setInputValues(tmp)
+                      setInputValues(initValue)
                     }}
                   >
                     {getExpression('new')}

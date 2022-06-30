@@ -2,6 +2,7 @@
   "name": "presentation",
   "version": "0.0.1",
   "private": true,
+  "homepage": "/admin",
   "scripts": {
     "start": "craco start",
     "build": "craco build",
@@ -26,6 +27,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.28.0",
     "immer": "^9.0.12",
+    "moment": "^2.29.3",
     "react-markdown": "^8.0.3",
     "react-scripts": "^5.0.1",
     "style-loader": "^3.3.1",

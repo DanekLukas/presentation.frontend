@@ -29,8 +29,7 @@ const Article = () => {
   const dispatch = useDispatch()
   const { getExpression, getLanguage } = useContext(LanguageContext)
   const [keptData, setKeptData] = useState<Array<ArticleRow>>([])
-  const [tableOrderBy, setTableOrderBy] = useState('id')
-  const { Link, Paragraph, Text, Title } = Typography
+  const { Link, Paragraph, Title } = Typography
 
   const { refetch: refetchArticleData } = useQuery(query.getArticles, {
     skip: true,
@@ -51,20 +50,20 @@ const Article = () => {
   })
 
   useEffect(() => {
-    refetchArticleData({ language: getLanguage(), orderBy: tableOrderBy })
-  }, [refetchArticleData, tableOrderBy, getLanguage])
+    refetchArticleData({ language: getLanguage(), orderBy: 'id' })
+  }, [refetchArticleData, getLanguage])
 
   return (
-    <>
+    <div className='base'>
       {keptData.map((item, index) => (
         <Paragraph key={index}>
-          <Title>{item.title}</Title>
+          <Title level={4}>{item.title}</Title>
           <ReactMarkdown>{item.content}</ReactMarkdown>
           <Link>{item.links}</Link>
         </Paragraph>
       ))}
       {!keptData.length && <Title>{getExpression('noArticle')}</Title>}
-    </>
+    </div>
   )
 }
 

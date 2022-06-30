@@ -64,6 +64,9 @@ const Header = () => {
             <Menu.Item key={'registration_menu_04'}>
               <Link to='/articles'>{getExpression('header.articles')}</Link>
             </Menu.Item>
+            <Menu.Item key={'registration_menu_05'}>
+              <Link to='/jobs'>{getExpression('header.jobs')}</Link>
+            </Menu.Item>
           </>
         )}
       </Menu>

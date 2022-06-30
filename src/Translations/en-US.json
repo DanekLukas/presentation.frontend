@@ -12,7 +12,7 @@
   "enterYOurEmail": "'Please input your email!'",
   "rememberMe": "Remember me",
   "youAreNotLoggedIn": "You are not logged in",
-  "title": "title",
+  "title": "Title",
   "enterInputTitle": "Enter input title!",
   "content": "Content",
   "links": "Links",
@@ -21,6 +21,7 @@
   "header.article": "Article",
   "header.articles": "Articles",
   "header.registration": "Registration",
+  "header.jobs": "Professional experience",
   "getRandomArticle": "Other article",
   "articles": "Articles",
   "language": "Language",
@@ -43,6 +44,12 @@
   "emailSentForReset": "There was an email for setting a password sent to __email__ email address.",
   "forgottenPassword": "Forgotten password",
   "noArticle": "There is no text for this language yet.",
-  "markRecords": "Mark records"
-
+  "markRecords": "Mark records",
+  "description": "Description",
+  "position": "Position",
+  "skills": "Skills",
+  "platform": "Platform",
+  "started": "From",
+  "finished": "To",
+  "dateFormat": "YYYY/MM/DD"
 }

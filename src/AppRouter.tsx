@@ -5,6 +5,7 @@ import Articles from './Pages/Articles'
 import ChangePassword from './Pages/ChangePassword'
 import ForgottenPassword from './Pages/ForgottenPassword'
 import Header from './Pages/Header'
+import Jobs from './Pages/Jobs'
 import Login from './Pages/Login'
 import React, { useContext, useEffect, useState } from 'react'
 import Registration from './Pages/Registration'
@@ -33,15 +34,26 @@ const AppRouter = () => {
             }
           />
           {isLoggedIn && isAdmin && (
-            <Route
-              path='/articles'
-              element={
-                <>
-                  <Header />
-                  <Articles />
-                </>
-              }
-            />
+            <>
+              <Route
+                path='/articles'
+                element={
+                  <>
+                    <Header />
+                    <Articles />
+                  </>
+                }
+              />
+              <Route
+                path='/jobs'
+                element={
+                  <>
+                    <Header />
+                    <Jobs />
+                  </>
+                }
+              />
+            </>
           )}
           {isLoggedIn && (
             <Route
