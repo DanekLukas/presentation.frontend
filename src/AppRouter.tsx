@@ -3,6 +3,7 @@ import { UserContext } from './contexts/UserContext'
 import Article from './Pages/Article'
 import Articles from './Pages/Articles'
 import ChangePassword from './Pages/ChangePassword'
+import Education from './Pages/Education'
 import ForgottenPassword from './Pages/ForgottenPassword'
 import Header from './Pages/Header'
 import Jobs from './Pages/Jobs'
@@ -50,6 +51,15 @@ const AppRouter = () => {
                   <>
                     <Header />
                     <Jobs />
+                  </>
+                }
+              />
+              <Route
+                path='/education'
+                element={
+                  <>
+                    <Header />
+                    <Education />
                   </>
                 }
               />

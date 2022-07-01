@@ -22,6 +22,7 @@
   "header.articles": "Articles",
   "header.registration": "Registration",
   "header.jobs": "Professional experience",
+  "header.education": "Education",
   "getRandomArticle": "Other article",
   "articles": "Articles",
   "language": "Language",
@@ -49,6 +50,7 @@
   "position": "Position",
   "skills": "Skills",
   "platform": "Platform",
+  "degree": "Degree",
   "started": "From",
   "finished": "To",
   "dateFormat": "YYYY/MM/DD"

@@ -22,6 +22,7 @@
   "header.articles": "Blog",
   "header.registration": "Registrace",
   "header.jobs": "Zaměstnání",
+  "header.education": "Vzdělání",
   "getRandomArticle": "Jiné moudro",
   "articles": "Příspěvek",
   "language": "Jazyk",
@@ -48,6 +49,7 @@
   "position": "Pozice",
   "skills": "Technologie",
   "platform": "Platforma",
+  "degree": "Stupeň",
   "started": "Od",
   "finished": "Do",
   "dateFormat": "DD.MM.YYYY"
