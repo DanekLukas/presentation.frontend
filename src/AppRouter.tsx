@@ -8,8 +8,10 @@ import ForgottenPassword from './Pages/ForgottenPassword'
 import Header from './Pages/Header'
 import Jobs from './Pages/Jobs'
 import Login from './Pages/Login'
+import Patent from './Pages/Patent'
 import React, { useContext, useEffect, useState } from 'react'
 import Registration from './Pages/Registration'
+import Residency from './Pages/Residency'
 import SetPassword from './Pages/SetPassword'
 
 const AppRouter = () => {
@@ -60,6 +62,24 @@ const AppRouter = () => {
                   <>
                     <Header />
                     <Education />
+                  </>
+                }
+              />
+              <Route
+                path='/residency'
+                element={
+                  <>
+                    <Header />
+                    <Residency />
+                  </>
+                }
+              />
+              <Route
+                path='/patent'
+                element={
+                  <>
+                    <Header />
+                    <Patent />
                   </>
                 }
               />

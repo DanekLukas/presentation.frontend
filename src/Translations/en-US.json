@@ -23,6 +23,8 @@
   "header.registration": "Registration",
   "header.jobs": "Professional experience",
   "header.education": "Education",
+  "header.residency": "Residencies",
+  "header.patents": "Patents",
   "getRandomArticle": "Other article",
   "articles": "Articles",
   "language": "Language",
@@ -53,5 +55,8 @@
   "degree": "Degree",
   "started": "From",
   "finished": "To",
-  "dateFormat": "YYYY/MM/DD"
+  "dateFormat": "YYYY/MM/DD",
+  "patent": "Patent",
+  "number": "Number",
+  "link": "Link"
 }
