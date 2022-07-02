@@ -32,6 +32,9 @@ const ChanagePassword = () => {
   const dispatch = useDispatch()
 
   const [passwordMutation] = useMutation(mutations.setPasswordMutation, {
+    onError: error => {
+      dispatch(setMessage(error.message))
+    },
     onCompleted: data => {
       if (data.SetPassword?.error === 0) {
         dispatch(setMessage(getExpression('passwordChanged')))

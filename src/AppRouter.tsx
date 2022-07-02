@@ -13,6 +13,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import Registration from './Pages/Registration'
 import Residency from './Pages/Residency'
 import SetPassword from './Pages/SetPassword'
+import User from './Pages/User'
 
 const AppRouter = () => {
   const { email, inRole } = useContext(UserContext)
@@ -44,6 +45,15 @@ const AppRouter = () => {
                   <>
                     <Header />
                     <Articles />
+                  </>
+                }
+              />
+              <Route
+                path='/user'
+                element={
+                  <>
+                    <Header />
+                    <User />
                   </>
                 }
               />

@@ -45,8 +45,13 @@ const Header = () => {
           <Link to='/'>{getExpression('header.articles')}</Link>
         </Menu.Item>
         {isLoggedIn && (
-          <Menu.Item key={'changePassword_menu_05'}>
+          <Menu.Item key={'changePassword_menu_01'}>
             <Link to='/change_password'>{getExpression('header.changePassword')}</Link>
+          </Menu.Item>
+        )}
+        {isLoggedIn && (
+          <Menu.Item key={'changeLogin_menu_01'}>
+            <Link to='/user'>{getExpression('header.user')}</Link>
           </Menu.Item>
         )}
         {isLoggedIn || (
