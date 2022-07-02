@@ -6,6 +6,7 @@ import ChangePassword from './Pages/ChangePassword'
 import Education from './Pages/Education'
 import ForgottenPassword from './Pages/ForgottenPassword'
 import Header from './Pages/Header'
+import Introduction from './Pages/Introduction'
 import Jobs from './Pages/Jobs'
 import Login from './Pages/Login'
 import Patent from './Pages/Patent'
@@ -90,6 +91,15 @@ const AppRouter = () => {
                   <>
                     <Header />
                     <Patent />
+                  </>
+                }
+              />
+              <Route
+                path='/introduction'
+                element={
+                  <>
+                    <Header />
+                    <Introduction />
                   </>
                 }
               />

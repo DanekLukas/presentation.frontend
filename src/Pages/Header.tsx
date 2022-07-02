@@ -59,13 +59,16 @@ const Header = () => {
             <Menu.Item key={'login_menu_02'}>
               <Link to='/login'>{getExpression('header.login')}</Link>
             </Menu.Item>
-            <Menu.Item key={'registration_menu_03'}>
+            <Menu.Item key={'login_menu_03'}>
               <Link to='/registration'>{getExpression('header.registration')}</Link>
             </Menu.Item>
           </>
         )}
         {isAdmin && (
           <>
+            <Menu.Item key={'registration_menu_03'}>
+              <Link to='/introduction'>{getExpression('header.introduction')}</Link>
+            </Menu.Item>
             <Menu.Item key={'registration_menu_04'}>
               <Link to='/articles'>{getExpression('header.articles')}</Link>
             </Menu.Item>

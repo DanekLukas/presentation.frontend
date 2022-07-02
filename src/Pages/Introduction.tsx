@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, Select } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { setMessage } from '../components/Message/messageActionCreators'
@@ -7,13 +7,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
 const query = {
-  login: gql`
-    query getLogin {
-      getLogin {
+  introduction: gql`
+    query getIntroduction($language: String) {
+      getIntroduction(language: $language) {
         error
         data {
-          name
-          login
+          content
+          language
         }
         message
       }
@@ -22,9 +22,9 @@ const query = {
 }
 
 const mutation = {
-  login: gql`
-    mutation setLogin($name: String, $login: String, $password: String) {
-      setLogin(name: $name, login: $login, password: $password) {
+  introduction: gql`
+    mutation saveIntroduction($language: String, $content: String) {
+      saveIntroduction(language: $language, content: $content) {
         error
         data
         message
@@ -33,42 +33,40 @@ const mutation = {
   `,
 }
 
-const User = () => {
+const Introduction = () => {
   const { getExpression } = useContext(LanguageContext)
-  const [name, setName] = useState<string>()
-  const [login, setLogin] = useState<string>()
-  const [password, setPassword] = useState<string>()
+  const [language, setLanguage] = useState('cs')
+  const [content, setContent] = useState<string>()
   const dispatch = useDispatch()
-  const [loginMutation] = useMutation(mutation.login, {
+  const { Option } = Select
+  const [introductionMutation] = useMutation(mutation.introduction, {
     onError: error => {
       dispatch(setMessage(error.message))
     },
     onCompleted: data => {
-      dispatch(setMessage(data.setLogin.data))
+      dispatch(setMessage(data.saveIntroduction.data))
     },
   })
-  const { refetch: refetchLogin } = useQuery(query.login, {
-    skip: true,
+  const { refetch: refetchIntroduction } = useQuery(query.introduction, {
+    variables: { language },
     onCompleted: data => {
-      if (data.getLogin.error) {
-        dispatch(setMessage(getExpression(data.getLogin.message)))
+      if (data.getIntroduction.error) {
+        dispatch(setMessage(getExpression(data.getIntroduction.message)))
         return
       }
-      setName(data.getLogin.data.name)
-      setLogin(data.getLogin.data.login)
+      setContent(data.getIntroduction.data.content)
     },
   })
 
   useEffect(() => {
-    refetchLogin()
-  }, [refetchLogin])
+    refetchIntroduction()
+  }, [language])
 
   const onFinish = () => {
-    loginMutation({
+    introductionMutation({
       variables: {
-        name: name,
-        login: login,
-        password: password,
+        language: language,
+        content: content,
       },
     })
     return
@@ -88,54 +86,44 @@ const User = () => {
       autoComplete='off'
     >
       <Form.Item
-        label={getExpression('Name')}
+        label={getExpression('Introduction')}
         rules={[
           {
             required: true,
-            message: getExpression('EnterName'),
+            message: getExpression('EnterIntroduction'),
           },
         ]}
       >
-        <Input
+        <Input.TextArea
           onChange={({ target: { value } }) => {
-            setName(value)
+            setContent(value)
           }}
-          value={name}
+          value={content}
         />
       </Form.Item>
 
       <Form.Item
-        label={getExpression('Login')}
+        label={getExpression('Language')}
         rules={[
           {
             required: true,
-            message: getExpression('EnterNewLogin'),
+            message: getExpression('ChooseLanguage'),
           },
         ]}
       >
-        <Input
-          onChange={({ target: { value } }) => {
-            setLogin(value)
+        <Select
+          defaultValue={'cs'}
+          onChange={(value: string) => {
+            setLanguage(value)
           }}
-          value={login}
-        />
-      </Form.Item>
-
-      <Form.Item
-        label={getExpression('password')}
-        rules={[
-          {
-            required: true,
-            message: getExpression('enterYourPassword'),
-          },
-        ]}
-      >
-        <Input.Password
-          onChange={({ target: { value } }) => {
-            setPassword(value)
-          }}
-          value={password}
-        />
+          value={language}
+        >
+          {['en', 'cs'].map((option, index) => (
+            <Option key={index} value={option}>
+              {option}
+            </Option>
+          ))}
+        </Select>
       </Form.Item>
 
       <Form.Item>
@@ -176,4 +164,4 @@ const FormStyled = styled(Form)`
   }
 `
 
-export default User
+export default Introduction
