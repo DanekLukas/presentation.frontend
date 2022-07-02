@@ -12,6 +12,7 @@ const query = {
       getLogin {
         error
         data {
+          name
           login
           introduction
         }
@@ -23,8 +24,8 @@ const query = {
 
 const mutation = {
   login: gql`
-    mutation setLogin($login: String, $password: String, $introduction: String) {
-      setLogin(login: $login, password: $password, introduction: $introduction) {
+    mutation setLogin($name: String, $login: String, $password: String, $introduction: String) {
+      setLogin(name: $name, login: $login, password: $password, introduction: $introduction) {
         error
         data
         message
@@ -35,6 +36,7 @@ const mutation = {
 
 const User = () => {
   const { getExpression } = useContext(LanguageContext)
+  const [name, setName] = useState<string>()
   const [login, setLogin] = useState<string>()
   const [password, setPassword] = useState<string>()
   const [introduction, setIntroduction] = useState<string>()
@@ -66,6 +68,7 @@ const User = () => {
   const onFinish = () => {
     loginMutation({
       variables: {
+        name: name,
         login: login,
         password: password,
         introduction: introduction,
@@ -87,6 +90,23 @@ const User = () => {
       onFinishFailed={onFinishFailed}
       autoComplete='off'
     >
+      <Form.Item
+        label={getExpression('Name')}
+        rules={[
+          {
+            required: true,
+            message: getExpression('EnterName'),
+          },
+        ]}
+      >
+        <Input
+          onChange={({ target: { value } }) => {
+            setName(value)
+          }}
+          value={name}
+        />
+      </Form.Item>
+
       <Form.Item
         label={getExpression('Login')}
         rules={[
