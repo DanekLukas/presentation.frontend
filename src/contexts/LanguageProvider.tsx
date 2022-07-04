@@ -5,11 +5,11 @@ import React, { useCallback, useEffect, useState } from 'react'
 const Language: Readonly<Record<string, string>> = { cs: 'čeština', en: 'english' }
 
 const translations: {
-  messages: Record<string, () => Promise<typeof import('../Translations/cs-CZ.json')>>
+  messages: Record<string, () => Promise<typeof import('../translations/cs-CZ.json')>>
 } = {
   messages: {
-    en: () => import('../Translations/en-US.json'),
-    cs: () => import('../Translations/cs-CZ.json'),
+    en: () => import('../translations/en-US.json'),
+    cs: () => import('../translations/cs-CZ.json'),
   },
 }
 type Props = {

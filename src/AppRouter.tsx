@@ -1,20 +1,21 @@
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { UserContext } from './contexts/UserContext'
-import Article from './Pages/Article'
-import Articles from './Pages/Articles'
-import ChangePassword from './Pages/ChangePassword'
-import Education from './Pages/Education'
-import ForgottenPassword from './Pages/ForgottenPassword'
-import Header from './Pages/Header'
-import Introduction from './Pages/Introduction'
-import Jobs from './Pages/Jobs'
-import Login from './Pages/Login'
-import Patent from './Pages/Patent'
+import Article from './pages/Article'
+import Articles from './pages/Articles'
+import ChangePassword from './pages/ChangePassword'
+import Education from './pages/Education'
+import ForgottenPassword from './pages/ForgottenPassword'
+import Header from './pages/Header'
+import Homepage from './preview/Homepage'
+import Introduction from './pages/Introduction'
+import Jobs from './pages/Jobs'
+import Login from './pages/Login'
+import Patent from './pages/Patent'
 import React, { useContext, useEffect, useState } from 'react'
-import Registration from './Pages/Registration'
-import Residency from './Pages/Residency'
-import SetPassword from './Pages/SetPassword'
-import User from './Pages/User'
+import Registration from './pages/Registration'
+import Residency from './pages/Residency'
+import SetPassword from './pages/SetPassword'
+import User from './pages/User'
 
 const AppRouter = () => {
   const { email, inRole } = useContext(UserContext)
@@ -100,6 +101,15 @@ const AppRouter = () => {
                   <>
                     <Header />
                     <Introduction />
+                  </>
+                }
+              />
+              <Route
+                path='/homepage'
+                element={
+                  <>
+                    <Header />
+                    <Homepage />
                   </>
                 }
               />

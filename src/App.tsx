@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import AppRouter from './AppRouter'
 import LanguageProvider from './contexts/LanguageProvider'
+import MenuProvider from './contexts/MenuProvider'
 import UserProvider from './contexts/UserProvider'
 import rootReducer from './components/rootReducer'
 
@@ -43,7 +44,9 @@ const App = () => {
         <Provider store={store}>
           <LanguageProvider>
             <UserProvider>
-              <AppRouter />
+              <MenuProvider>
+                <AppRouter />
+              </MenuProvider>
             </UserProvider>
           </LanguageProvider>
         </Provider>
