@@ -17,6 +17,7 @@ import React, {
   useMemo,
   useState,
 } from 'react'
+import Residency from './Residency'
 import User from './User'
 
 type Props = {
@@ -52,13 +53,13 @@ const Homepage = () => {
   }, [srt])
 
   const containers = useMemo(
-    () => [User, Introduction, Menu, Education, Patent, Job, Article],
+    () => [User, Introduction, Menu, Education, Residency, Patent, Job, Article],
     [Menu]
   )
   //next line after product compilation does not work
   // const names = containers.map(elm => elm.name.toLowerCase())
   const names = useMemo(
-    () => ['user', 'introduction', 'menu', 'education', 'patent', 'job', 'article'],
+    () => ['user', 'introduction', 'menu', 'education', 'residency', 'patent', 'job', 'article'],
     []
   )
 

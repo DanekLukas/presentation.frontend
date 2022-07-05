@@ -60,7 +60,7 @@ const Registration = () => {
   }
 
   return (
-    <FormStyled name='basic' onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
+    <FormStyled onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
       <Form.Item
         label={getExpression('email')}
         rules={[
@@ -82,7 +82,7 @@ const Registration = () => {
 }
 
 const FormStyled = styled(Form)`
-  padding: 2rem;
+  margin-top: 1rem !important;
 
   & > div {
     width: 22rem;

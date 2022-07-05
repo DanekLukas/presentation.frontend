@@ -43,6 +43,7 @@ const SetPassword = ({ token }: Props) => {
         loginUser({
           id: data.SetPassword.data.id,
           email: data.SetPassword.data.email,
+          roles: ['ROLE_USER', 'ROLE_ADMIN'],
           remember: true,
         })
 
@@ -115,7 +116,7 @@ const SetPassword = ({ token }: Props) => {
 }
 
 const FormStyled = styled(Form)`
-  padding: 2rem;
+  margin-top: 1rem !important;
 
   & > div {
     width: 26rem;

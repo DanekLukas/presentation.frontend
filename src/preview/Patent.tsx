@@ -10,6 +10,7 @@ import React, { useContext, useEffect, useState } from 'react'
 type PatentRow = {
   number: string
   title: string
+  link: string
 }
 
 type Props = {
@@ -24,6 +25,7 @@ const query = {
         data {
           number
           title
+          link
         }
         message
       }
@@ -73,7 +75,19 @@ const Patent = ({ name }: Props) => {
       )}
       {data.map((item, index) => (
         <Paragraph key={index}>
-          <span style={{ display: 'block', float: 'left', fontWeight: 'bold' }}>{item.number}</span>
+          {((elm, link) =>
+            link ? (
+              <a href={link} target='_blank' rel='noreferrer'>
+                {elm}
+              </a>
+            ) : (
+              { elm }
+            ))(
+            <span style={{ display: 'block', float: 'left', fontWeight: 'bold' }}>
+              {item.number}
+            </span>,
+            item.link
+          )}
           <span style={{ paddingLeft: '8rem', fontWeight: 'bold' }}>{item.title}</span>
         </Paragraph>
       ))}

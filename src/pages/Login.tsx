@@ -136,7 +136,7 @@ const Login = () => {
 }
 
 const FormStyled = styled(Form)`
-  padding: 2rem;
+  margin-top: 1rem !important;
 
   & > div {
     width: 26rem;
