@@ -31,7 +31,7 @@ const AppRouter = () => {
       <BrowserRouter>
         <Routes>
           <Route
-            path='/'
+            path='/admin'
             element={
               <>
                 <Header />
@@ -42,7 +42,7 @@ const AppRouter = () => {
           {isLoggedIn && isAdmin && (
             <>
               <Route
-                path='/articles'
+                path='/admin/articles'
                 element={
                   <>
                     <Header />
@@ -51,7 +51,7 @@ const AppRouter = () => {
                 }
               />
               <Route
-                path='/user'
+                path='/admin/user'
                 element={
                   <>
                     <Header />
@@ -60,7 +60,7 @@ const AppRouter = () => {
                 }
               />
               <Route
-                path='/jobs'
+                path='/admin/jobs'
                 element={
                   <>
                     <Header />
@@ -69,7 +69,7 @@ const AppRouter = () => {
                 }
               />
               <Route
-                path='/education'
+                path='/admin/education'
                 element={
                   <>
                     <Header />
@@ -78,7 +78,7 @@ const AppRouter = () => {
                 }
               />
               <Route
-                path='/residency'
+                path='/admin/residency'
                 element={
                   <>
                     <Header />
@@ -87,7 +87,7 @@ const AppRouter = () => {
                 }
               />
               <Route
-                path='/patent'
+                path='/admin/patent'
                 element={
                   <>
                     <Header />
@@ -96,7 +96,7 @@ const AppRouter = () => {
                 }
               />
               <Route
-                path='/introduction'
+                path='/admin/introduction'
                 element={
                   <>
                     <Header />
@@ -105,7 +105,7 @@ const AppRouter = () => {
                 }
               />
               <Route
-                path='/homepage'
+                path='/admin/homepage'
                 element={
                   <>
                     <Header />
@@ -117,7 +117,7 @@ const AppRouter = () => {
           )}
           {isLoggedIn && (
             <Route
-              path='/change_password'
+              path='/admin/change_password'
               element={
                 <>
                   <Header />
@@ -129,7 +129,7 @@ const AppRouter = () => {
           {!isLoggedIn && (
             <>
               <Route
-                path='/reset_password'
+                path='/admin/reset_password'
                 element={
                   <>
                     <Header />
@@ -138,7 +138,7 @@ const AppRouter = () => {
                 }
               />
               <Route
-                path='/login'
+                path='/admin/login'
                 element={
                   <>
                     <Header />
@@ -147,7 +147,7 @@ const AppRouter = () => {
                 }
               />
               <Route
-                path='/registration'
+                path='/admin/registration'
                 element={
                   <>
                     <Header />
@@ -155,10 +155,10 @@ const AppRouter = () => {
                   </>
                 }
               />
-              <Route path='/set-password' element={<SetPasswordElement />} />
+              <Route path='/admin/set-password' element={<SetPasswordElement />} />
             </>
           )}
-          <Route path='*' element={<Navigate to='/' />} />
+          <Route path='*' element={<Navigate to='/admin' />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -65,5 +65,5 @@
   "patent": "Patent",
   "number": "Number",
   "link": "Link",
-  "welcome": "Welcome in application for administration of presentations. Your presentation is not reachable before setting the **login** property."
+  "welcome": "Welcome to application for administration of presentations. Your presentation will not be reachable before setting the **login** property."
 }

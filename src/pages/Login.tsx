@@ -128,7 +128,7 @@ const Login = () => {
           </Form.Item>
         </FormStyled>
       )}
-      <LinkToReset onClick={() => navigate('/reset_password')}>
+      <LinkToReset onClick={() => navigate('/admin/reset_password')}>
         {getExpression('forgottenPassword')}
       </LinkToReset>
     </>

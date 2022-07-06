@@ -35,7 +35,7 @@ const Registration = () => {
       if (data.Register.error) {
         dispatch(setMessage(getExpression(data.Register.message)))
       } else {
-        navigate('/')
+        navigate('/admin')
       }
     },
   })

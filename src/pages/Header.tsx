@@ -24,7 +24,7 @@ const Header = () => {
 
   const logout = () => {
     logoutUser()
-    navigate('/')
+    navigate('/admin')
   }
 
   return (
@@ -42,50 +42,50 @@ const Header = () => {
       </LanguageWrapper>
       <Menu mode='horizontal'>
         <Menu.Item key={'article_menu_01'}>
-          <Link to='/'>{getExpression('header.welcome')}</Link>
+          <Link to='/admin/'>{getExpression('header.welcome')}</Link>
         </Menu.Item>
         {isLoggedIn && (
           <Menu.Item key={'changePassword_menu_01'}>
-            <Link to='/change_password'>{getExpression('header.changePassword')}</Link>
+            <Link to='/admin/change_password'>{getExpression('header.changePassword')}</Link>
           </Menu.Item>
         )}
         {isLoggedIn && (
           <Menu.Item key={'changeLogin_menu_01'}>
-            <Link to='/user'>{getExpression('header.user')}</Link>
+            <Link to='/admin/user'>{getExpression('header.user')}</Link>
           </Menu.Item>
         )}
         {isLoggedIn || (
           <>
             <Menu.Item key={'login_menu_02'}>
-              <Link to='/login'>{getExpression('header.login')}</Link>
+              <Link to='/admin/login'>{getExpression('header.login')}</Link>
             </Menu.Item>
             <Menu.Item key={'login_menu_03'}>
-              <Link to='/registration'>{getExpression('header.registration')}</Link>
+              <Link to='/admin/registration'>{getExpression('header.registration')}</Link>
             </Menu.Item>
           </>
         )}
         {isAdmin && (
           <>
             <Menu.Item key={'registration_menu_03'}>
-              <Link to='/introduction'>{getExpression('header.introduction')}</Link>
+              <Link to='/admin/introduction'>{getExpression('header.introduction')}</Link>
             </Menu.Item>
             <Menu.Item key={'registration_menu_04'}>
-              <Link to='/articles'>{getExpression('header.articles')}</Link>
+              <Link to='/admin/articles'>{getExpression('header.articles')}</Link>
             </Menu.Item>
             <Menu.Item key={'registration_menu_05'}>
-              <Link to='/jobs'>{getExpression('header.jobs')}</Link>
+              <Link to='/admin/jobs'>{getExpression('header.jobs')}</Link>
             </Menu.Item>
             <Menu.Item key={'registration_menu_06'}>
-              <Link to='/education'>{getExpression('header.education')}</Link>
+              <Link to='/admin/education'>{getExpression('header.education')}</Link>
             </Menu.Item>
             <Menu.Item key={'registration_menu_07'}>
-              <Link to='/residency'>{getExpression('header.residency')}</Link>
+              <Link to='/admin/residency'>{getExpression('header.residency')}</Link>
             </Menu.Item>
             <Menu.Item key={'registration_menu_08'}>
-              <Link to='/patent'>{getExpression('header.patents')}</Link>
+              <Link to='/admin/patent'>{getExpression('header.patents')}</Link>
             </Menu.Item>
             <Menu.Item key={'registration_menu_09'}>
-              <Link to='/homepage'>{getExpression('header.preview')}</Link>
+              <Link to='/admin/homepage'>{getExpression('header.preview')}</Link>
             </Menu.Item>
           </>
         )}

@@ -47,7 +47,7 @@ const SetPassword = ({ token }: Props) => {
           remember: true,
         })
 
-        navigate('/')
+        navigate('/admin')
       } else {
         dispatch(setMessage(getExpression(data.SetPassword?.message)))
       }
@@ -74,7 +74,7 @@ const SetPassword = ({ token }: Props) => {
           newPassword: password,
         },
       })
-      navigate('/')
+      navigate('/admin')
     } catch (e) {
       dispatch(setMessage(getExpression(e.getMessage())))
     }

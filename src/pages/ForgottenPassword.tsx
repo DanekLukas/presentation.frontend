@@ -35,7 +35,7 @@ const Registration = () => {
       if (data.Resetpassword.error) {
         dispatch(setMessage(getExpression(data.Resetpassword.message)))
       } else {
-        navigate('/')
+        navigate('/admin')
       }
     },
   })
