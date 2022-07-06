@@ -12,8 +12,8 @@ type ArticleRow = { id: number; title: string; content: string; links: string }
 
 const query = {
   getArticles: gql`
-    query Articles($login: String, $language: String, $orderBy: String) {
-      allArticles(login: $login, language: $language, orderBy: $orderBy) {
+    query Articles($language: String, $orderBy: String) {
+      allArticles(language: $language, orderBy: $orderBy) {
         error
         data {
           id
@@ -27,11 +27,7 @@ const query = {
   `,
 }
 
-type Props = {
-  name: string
-}
-
-const Article = ({ name }: Props) => {
+const Article = () => {
   const dispatch = useDispatch()
   const { addItem, removeItem } = useContext(MenuContext)
   const { getExpression, getLanguage } = useContext(LanguageContext)
@@ -61,8 +57,8 @@ const Article = ({ name }: Props) => {
   })
 
   useEffect(() => {
-    refetchArticleData({ login: name, language: getLanguage(), orderBy: 'id' })
-  }, [refetchArticleData, getLanguage, name])
+    refetchArticleData({ language: getLanguage(), orderBy: 'id' })
+  }, [refetchArticleData, getLanguage])
 
   return (
     <>

@@ -18,8 +18,8 @@ type EducationRow = {
 
 const query = {
   getEducations: gql`
-    query Educations($login: String, $language: String, $orderBy: String) {
-      allEducationsRanges(login: $login, language: $language, orderBy: $orderBy) {
+    query Educations($language: String, $orderBy: String) {
+      allEducationRanges(language: $language, orderBy: $orderBy) {
         error
         data {
           title
@@ -34,11 +34,7 @@ const query = {
   `,
 }
 
-type Props = {
-  name: string
-}
-
-const Education = ({ name }: Props) => {
+const Education = () => {
   const dispatch = useDispatch()
   const { addItem, removeItem } = useContext(MenuContext)
   const { getExpression, getLanguage } = useContext(LanguageContext)
@@ -48,16 +44,16 @@ const Education = ({ name }: Props) => {
 
   const { refetch: refetchEducationData } = useQuery(query.getEducations, {
     skip: true,
-    onCompleted: allEducationsData => {
-      if (allEducationsData.allEducationsRanges.error) {
+    onCompleted: data => {
+      if (data.allEducationRanges.error) {
         removeItem(menuItem)
-        dispatch(setMessage(allEducationsData.allEducationsRanges.message))
+        dispatch(setMessage(data.allEducationRanges.message))
         return
       }
       const datas: Array<EducationRow> = []
-      Object.keys(allEducationsData.allEducationsRanges.data).forEach((key, index) =>
+      Object.keys(data.allEducationRanges.data).forEach((key, index) =>
         datas.push({
-          ...allEducationsData.allEducationsRanges.data[key],
+          ...data.allEducationRanges.data[key],
           ...{ action: '', key: index },
         })
       )
@@ -68,8 +64,8 @@ const Education = ({ name }: Props) => {
   })
 
   useEffect(() => {
-    refetchEducationData({ login: name, language: getLanguage(), orderBy: 'id' })
-  }, [refetchEducationData, getLanguage, name])
+    refetchEducationData({ language: getLanguage(), orderBy: 'id' })
+  }, [refetchEducationData, getLanguage])
 
   return (
     <>

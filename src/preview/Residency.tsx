@@ -17,8 +17,8 @@ type ResidencyRow = {
 
 const query = {
   getResidencies: gql`
-    query Residencies($login: String, $language: String, $orderBy: String) {
-      allResidenciesRanges(login: $login, language: $language, orderBy: $orderBy) {
+    query Residencies($language: String, $orderBy: String) {
+      allResidencyRanges(language: $language, orderBy: $orderBy) {
         error
         data {
           title
@@ -32,11 +32,7 @@ const query = {
   `,
 }
 
-type Props = {
-  name: string
-}
-
-const Residency = ({ name }: Props) => {
+const Residency = () => {
   const dispatch = useDispatch()
   const { addItem, removeItem } = useContext(MenuContext)
   const { getExpression, getLanguage } = useContext(LanguageContext)
@@ -46,16 +42,16 @@ const Residency = ({ name }: Props) => {
 
   const { refetch: refetchResidencyData } = useQuery(query.getResidencies, {
     skip: true,
-    onCompleted: allResidenciesData => {
-      if (allResidenciesData.allResidenciesRanges.error) {
+    onCompleted: data => {
+      if (data.allResidencyRanges.error) {
         removeItem(menuItem)
-        dispatch(setMessage(allResidenciesData.allResidenciesRanges.message))
+        dispatch(setMessage(data.allResidencyRanges.message))
         return
       }
       const datas: Array<ResidencyRow> = []
-      Object.keys(allResidenciesData.allResidenciesRanges.data).forEach((key, index) =>
+      Object.keys(data.allResidencyRanges.data).forEach((key, index) =>
         datas.push({
-          ...allResidenciesData.allResidenciesRanges.data[key],
+          ...data.allResidencyRanges.data[key],
           ...{ action: '', key: index },
         })
       )
@@ -66,8 +62,8 @@ const Residency = ({ name }: Props) => {
   })
 
   useEffect(() => {
-    refetchResidencyData({ login: name, language: getLanguage(), orderBy: 'id' })
-  }, [refetchResidencyData, getLanguage, name])
+    refetchResidencyData({ language: getLanguage(), orderBy: 'id' })
+  }, [refetchResidencyData, getLanguage])
 
   return (
     <>

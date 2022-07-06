@@ -19,14 +19,10 @@ type JobRow = {
   finished: string
 }
 
-type Props = {
-  name?: string
-}
-
 const query = {
   getJobs: gql`
-    query Jobs($login: String, $language: String, $orderBy: String) {
-      allJobsRanges(login: $login, language: $language, orderBy: $orderBy) {
+    query Jobs($language: String, $orderBy: String) {
+      allJobRanges(language: $language, orderBy: $orderBy) {
         error
         data {
           id
@@ -44,7 +40,7 @@ const query = {
   `,
 }
 
-const Job = ({ name }: Props) => {
+const Job = () => {
   const dispatch = useDispatch()
   const { addItem, removeItem } = useContext(MenuContext)
   const { getExpression, getLanguage } = useContext(LanguageContext)
@@ -55,16 +51,16 @@ const Job = ({ name }: Props) => {
   const { refetch: refetchJobsData } = useQuery(query.getJobs, {
     skip: true,
     onCompleted: allJobsData => {
-      if (allJobsData.allJobsRanges.error) {
+      if (allJobsData.allJobRanges.error) {
         removeItem(menuItem)
-        dispatch(setMessage(allJobsData.allJobsRanges.message))
+        dispatch(setMessage(allJobsData.allJobRanges.message))
         return
       }
       const datas: Array<JobRow> = []
-      Object.keys(allJobsData.allJobsRanges.data).forEach(key =>
+      Object.keys(allJobsData.allJobRanges.data).forEach(key =>
         datas.push({
-          ...allJobsData.allJobsRanges.data[key],
-          ...{ action: '', key: `jobs_${allJobsData.allJobsRanges.data[key].id}` },
+          ...allJobsData.allJobRanges.data[key],
+          ...{ action: '', key: `jobs_${allJobsData.allJobRanges.data[key].id}` },
         })
       )
       if (datas.length === 0) removeItem(menuItem)
@@ -74,8 +70,8 @@ const Job = ({ name }: Props) => {
   })
 
   useEffect(() => {
-    refetchJobsData({ login: name, language: getLanguage(), orderBy: 'started' })
-  }, [refetchJobsData, getLanguage, name])
+    refetchJobsData({ language: getLanguage(), orderBy: 'started' })
+  }, [refetchJobsData, getLanguage])
 
   return (
     <>

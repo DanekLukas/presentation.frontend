@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react'
 
 const query = {
   getUser: gql`
-    query getUserByLogin($login: String) {
-      getUserByLogin(login: $login) {
+    query getLogin {
+      getLogin {
         error
         data {
           name
@@ -18,23 +18,19 @@ const query = {
   `,
 }
 
-type Props = {
-  name: string
-}
-
-const User = ({ name }: Props) => {
+const User = () => {
   const dispatch = useDispatch()
   const [user, setUser] = useState<string>()
   const { Title } = Typography
 
   const { refetch: refetchUserData } = useQuery(query.getUser, {
-    variables: { login: name },
+    skip: true,
     onCompleted: data => {
-      if (data.getUserByLogin.error) {
-        dispatch(setMessage(data.getUserByLogin.message))
+      if (data.getLogin.error) {
+        dispatch(setMessage(data.getLogin.message))
         return
       }
-      setUser(data.getUserByLogin.data.name)
+      setUser(data.getLogin.data.name)
     },
   })
 

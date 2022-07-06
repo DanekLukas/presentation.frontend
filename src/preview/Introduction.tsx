@@ -7,8 +7,8 @@ import ReactMarkdown from 'react-markdown'
 
 const query = {
   getIntroduction: gql`
-    query getIntroductionByLogin($login: String, $language: String) {
-      getIntroductionByLogin(login: $login, language: $language) {
+    query getIntroduction($language: String) {
+      getIntroduction(language: $language) {
         error
         data {
           content
@@ -19,23 +19,19 @@ const query = {
   `,
 }
 
-type Props = {
-  name: string
-}
-
-const Introduction = ({ name }: Props) => {
+const Introduction = () => {
   const dispatch = useDispatch()
   const { getLanguage } = useContext(LanguageContext)
   const [Introduction, setIntroduction] = useState<string>()
 
   const { refetch: refetchIntroductionData } = useQuery(query.getIntroduction, {
-    variables: { login: name, language: getLanguage() },
+    variables: { language: getLanguage() },
     onCompleted: data => {
-      if (data.getIntroductionByLogin.error) {
-        dispatch(setMessage(data.getIntroductionByLogin.message))
+      if (data.getIntroduction.error) {
+        dispatch(setMessage(data.getIntroduction.message))
         return
       }
-      setIntroduction(data.getIntroductionByLogin.data.content)
+      setIntroduction(data.getIntroduction.data.content)
     },
   })
 

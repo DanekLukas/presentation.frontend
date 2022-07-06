@@ -13,14 +13,10 @@ type PatentRow = {
   link: string
 }
 
-type Props = {
-  name?: string
-}
-
 const query = {
   getPatents: gql`
-    query Patents($login: String, $language: String, $orderBy: String) {
-      allPatents(login: $login, language: $language, orderBy: $orderBy) {
+    query Patents($language: String, $orderBy: String) {
+      allPatents(language: $language, orderBy: $orderBy) {
         error
         data {
           number
@@ -33,7 +29,7 @@ const query = {
   `,
 }
 
-const Patent = ({ name }: Props) => {
+const Patent = () => {
   const dispatch = useDispatch()
   const { addItem, removeItem } = useContext(MenuContext)
   const { getExpression, getLanguage } = useContext(LanguageContext)
@@ -63,8 +59,8 @@ const Patent = ({ name }: Props) => {
   })
 
   useEffect(() => {
-    refetchPatentsData({ login: name, language: getLanguage(), orderBy: 'id' })
-  }, [refetchPatentsData, getLanguage, name])
+    refetchPatentsData({ language: getLanguage(), orderBy: 'id' })
+  }, [refetchPatentsData, getLanguage])
 
   return (
     <>
