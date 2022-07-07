@@ -6,11 +6,11 @@ import ChangePassword from './pages/ChangePassword'
 import Education from './pages/Education'
 import ForgottenPassword from './pages/ForgottenPassword'
 import Header from './pages/Header'
-import Homepage from './preview/Homepage'
 import Introduction from './pages/Introduction'
 import Jobs from './pages/Jobs'
 import Login from './pages/Login'
 import Patent from './pages/Patent'
+import Preview from './pages/Preview'
 import React, { useContext, useEffect, useState } from 'react'
 import Registration from './pages/Registration'
 import Residency from './pages/Residency'
@@ -109,7 +109,7 @@ const AppRouter = () => {
                 element={
                   <>
                     <Header />
-                    <Homepage />
+                    <Preview />
                   </>
                 }
               />

@@ -1,5 +1,5 @@
 {
-  "danekFamily": "Správa presentace",
+  "danekFamily": "Správa prezentace",
   "submit": "odeslat",
   "login": "přihlásit",
   "registration": "registrace",
@@ -64,5 +64,5 @@
   "patent": "Patent",
   "number": "Číslo",
   "link": "Odkaz",
-  "welcome": "Vítejte v aplikaci pro správu presentací.  \nPresentace není dostupná veřejnosti dokud není nastaven **login**."
+  "welcome": "Vítejte v aplikaci pro správu prezentací.  \nPresentace není dostupná veřejnosti dokud není nastaven **login**."
 }
