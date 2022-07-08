@@ -326,9 +326,31 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
                               setInputValues(tmp)
                             }
                           }}
+                          value={[
+                            inputValues && moment(inputValues[key], dateFormat),
+                            inputValues &&
+                              moment(
+                                inputValues[
+                                  (
+                                    inputType[key] as {
+                                      rangePicker: Array<string>
+                                    }
+                                  )['rangePicker'][1]
+                                ],
+                                dateFormat
+                              ),
+                          ]}
                           defaultValue={[
-                            moment(allColumns[key].initValue, dateFormat),
-                            moment(allColumns[key].initValue, dateFormat),
+                            moment(allColumns[key].initValue),
+                            moment(
+                              allColumns[
+                                (
+                                  inputType[key] as {
+                                    rangePicker: Array<string>
+                                  }
+                                )['rangePicker'][1]
+                              ].initValue
+                            ),
                           ]}
                           format={displayDateFormat}
                         />

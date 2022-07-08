@@ -20,8 +20,16 @@ const Jobs = () => {
     position: getTitle('position'),
     skills: getTitle('skills'),
     platform: getTitle('platform'),
-    started: getTitle('started', { rangePicker: ['started', 'finished'] }, '2015-01-01'),
-    finished: getTitle('finished', { rangePicker: ['started', 'finished'] }, '2015-01-01'),
+    started: getTitle(
+      'started',
+      { rangePicker: ['started', 'finished'] },
+      new Date().toLocaleDateString('en-US').replace(/\//g, '-')
+    ),
+    finished: getTitle(
+      'finished',
+      { rangePicker: ['started', 'finished'] },
+      new Date().toLocaleDateString('en-US').replace(/\//g, '-')
+    ),
     mark_records: getTitle('markRecords'),
   }
 

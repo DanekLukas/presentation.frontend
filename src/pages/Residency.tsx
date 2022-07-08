@@ -17,8 +17,16 @@ const Residency = () => {
     title: getTitle('title'),
     description: getTitle('description', 'textArea'),
     language: getTitle('language', { select: ['en', 'cs'] }, 'cs'),
-    started: getTitle('started', { rangePicker: ['started', 'finished'] }, '2015-01-01'),
-    finished: getTitle('finished', { rangePicker: ['started', 'finished'] }, '2015-01-01'),
+    started: getTitle(
+      'started',
+      { rangePicker: ['started', 'finished'] },
+      new Date().toLocaleDateString('en-US').replace(/\//g, '-')
+    ),
+    finished: getTitle(
+      'finished',
+      { rangePicker: ['started', 'finished'] },
+      new Date().toLocaleDateString('en-US').replace(/\//g, '-')
+    ),
     mark_records: getTitle('markRecords'),
   }
 
