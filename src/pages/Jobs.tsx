@@ -1,5 +1,5 @@
 import { LanguageContext } from '../contexts/LanguageContext'
-import Base, { EnteredT } from './Base'
+import Base, { EnteredT, getCurrDate } from './Base'
 import React, { useContext } from 'react'
 
 const Jobs = () => {
@@ -20,16 +20,8 @@ const Jobs = () => {
     position: getTitle('position'),
     skills: getTitle('skills'),
     platform: getTitle('platform'),
-    started: getTitle(
-      'started',
-      { rangePicker: ['started', 'finished'] },
-      new Date().toLocaleDateString('en-US').replace(/\//g, '-')
-    ),
-    finished: getTitle(
-      'finished',
-      { rangePicker: ['started', 'finished'] },
-      new Date().toLocaleDateString('en-US').replace(/\//g, '-')
-    ),
+    started: getTitle('started', { rangePicker: ['started', 'finished'] }, getCurrDate()),
+    finished: getTitle('finished', { rangePicker: ['started', 'finished'] }, getCurrDate()),
     mark_records: getTitle('markRecords'),
   }
 

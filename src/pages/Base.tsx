@@ -12,6 +12,10 @@ export type EnteredT = {
   initValue: string | number | undefined
 }
 
+export const getCurrDate = () => {
+  return (new Date().toLocaleDateString('en-GB').split('/') as string[]).reverse().join('-')
+}
+
 type Props = {
   columns: Record<string, EnteredT>
   table: string

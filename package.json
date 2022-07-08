@@ -6,6 +6,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "build-no-map": "GENERATE_SOURCEMAP=false craco build",
     "test": "craco test",
     "start-presentation": "HOST=presentation.localhost craco start",
     "start_webpack": "webpack serve --open --config webpack.dev.js",
