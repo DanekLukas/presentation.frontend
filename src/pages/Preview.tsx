@@ -15,6 +15,16 @@ const query = {
         }
         message
       }
+      allArticles(language: $language, orderBy: $orderBy) {
+        error
+        data {
+          id
+          title
+          content
+          links
+        }
+        message
+      }
       allEducationRanges(language: $language, orderBy: $orderBy) {
         error
         data {
@@ -23,16 +33,6 @@ const query = {
           degree
           started
           finished
-        }
-        message
-      }
-      allArticles(language: $language, orderBy: $orderBy) {
-        error
-        data {
-          id
-          title
-          content
-          links
         }
         message
       }
@@ -120,11 +120,11 @@ type TCV = {
   user: string | null
   introduction: string | null
   menu: menuItem[] | null
+  article: ArticleRow[] | null
   education: EducationRow[] | null
   residency: ResidencyRow[] | null
   patent: PatentRow[] | null
   job: JobRow[] | null
-  article: ArticleRow[] | null
 }
 
 const Preview = () => {
@@ -138,19 +138,19 @@ const Preview = () => {
     user: null,
     introduction: null,
     menu: null,
+    article: null,
     education: null,
     residency: null,
     patent: null,
     job: null,
-    article: null,
   }
 
   const menuItems = [
+    { link: 'article', name: 'header.projects' },
     { link: 'education', name: 'header.education' },
     { link: 'residency', name: 'header.residency' },
     { link: 'patent', name: 'header.patents' },
     { link: 'job', name: 'header.professional.experience' },
-    { link: 'article', name: 'header.projects' },
   ]
 
   const [cv, setCv] = useState<TCV>(initCV)
@@ -197,6 +197,24 @@ const Preview = () => {
                 ))}
               </div>
             )}
+            {cv.article?.length > 0 && (
+              <Title level={4} className='section' id='article'>
+                {getExpression('header.projects')}
+              </Title>
+            )}
+            {cv.article?.map((item, index) => (
+              <Paragraph key={index}>
+                <Title level={4}>
+                  {(item.links && (
+                    <Link href={item.links} target='_blank'>
+                      {item.title}
+                    </Link>
+                  )) ||
+                    item.title}
+                </Title>
+                <ReactMarkdown>{item.content}</ReactMarkdown>
+              </Paragraph>
+            ))}
             {cv.education?.length > 0 && (
               <Title level={4} className='section' id='education'>
                 {getExpression('header.education')}
@@ -204,12 +222,12 @@ const Preview = () => {
             )}
             {cv.education?.map((item, index) => (
               <Paragraph key={index}>
-                <Title level={5}>
-                  <span style={{ display: 'block', float: 'left' }}>
+                <Title level={5} className='cv-property'>
+                  <span>
                     {item.started} - {item.finished}
                   </span>
-                  <span style={{ paddingLeft: '8rem' }}>{item.title}</span>
-                  <span style={{ display: 'block', float: 'right' }}>{item.degree}</span>
+                  <span>{item.title}</span>
+                  <span>{item.degree}</span>
                 </Title>
                 <ReactMarkdown>{item.description}</ReactMarkdown>
               </Paragraph>
@@ -221,11 +239,11 @@ const Preview = () => {
             )}
             {cv.residency?.map((item, index) => (
               <Paragraph key={index}>
-                <Title level={5}>
-                  <span style={{ display: 'block', float: 'left' }}>
+                <Title level={5} className='cv-property'>
+                  <span>
                     {item.started} - {item.finished}
                   </span>
-                  <span style={{ paddingLeft: '8rem' }}>{item.title}</span>
+                  <span>{item.title}</span>
                 </Title>
                 <ReactMarkdown>{item.description}</ReactMarkdown>
               </Paragraph>
@@ -244,13 +262,8 @@ const Preview = () => {
                     </a>
                   ) : (
                     { elm }
-                  ))(
-                  <span style={{ display: 'block', float: 'left', fontWeight: 'bold' }}>
-                    {item.number}
-                  </span>,
-                  item.link
-                )}
-                <span style={{ paddingLeft: '8rem', fontWeight: 'bold' }}>{item.title}</span>
+                  ))(<span>{item.number}</span>, item.link)}
+                <span>{item.title}</span>
               </Paragraph>
             ))}
             {cv.job?.length > 0 && (
@@ -260,11 +273,11 @@ const Preview = () => {
             )}
             {cv.job?.map((item, index) => (
               <Paragraph key={index}>
-                <Title level={5}>
-                  <span style={{ display: 'block', float: 'left' }}>
+                <Title level={5} className='cv-property'>
+                  <span>
                     {item.started} - {item.finished}
                   </span>
-                  <span style={{ paddingLeft: '8rem' }}>{item.title}</span>
+                  <span>{item.title}</span>
                 </Title>
                 <ReactMarkdown>
                   {`>${item['description' as keyof typeof item]}  
@@ -273,18 +286,6 @@ const Preview = () => {
               .map(key => `${getExpression(key)}: **${item[key as keyof typeof item]}**`)
               .join('  \n ')}`}
                 </ReactMarkdown>
-              </Paragraph>
-            ))}
-            {cv.article?.length > 0 && (
-              <Title level={4} className='section' id='article'>
-                {getExpression('header.projects')}
-              </Title>
-            )}
-            {cv.article?.map((item, index) => (
-              <Paragraph key={index}>
-                <Title level={4}>{item.title}</Title>
-                <ReactMarkdown>{item.content}</ReactMarkdown>
-                <Link>{item.links}</Link>
               </Paragraph>
             ))}
           </>

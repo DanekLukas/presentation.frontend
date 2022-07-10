@@ -166,6 +166,7 @@ const FormStyled = styled(Form)`
 
 const LinkToReset = styled(Link)`
   display: block;
+  width: fit-content;
   transform: translate(15rem, -5rem);
 `
 
