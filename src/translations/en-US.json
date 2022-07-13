@@ -16,6 +16,7 @@
   "enterInputTitle": "Enter input title!",
   "content": "Content",
   "links": "Links",
+  "loading": "Loading...",
   "enterContent": "Enter content!",
   "header.login": "Login",
   "header.article": "Project",

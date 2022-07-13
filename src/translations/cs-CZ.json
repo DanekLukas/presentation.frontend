@@ -16,6 +16,7 @@
   "enterInputTitle": "Zadej nadpis!",
   "content": "obsah",
   "links": "odkazy",
+  "loading": "Načítám...",
   "enterContent": "Zadej obsah!",
   "header.login": "Přihlášení",
   "header.article": "Project",

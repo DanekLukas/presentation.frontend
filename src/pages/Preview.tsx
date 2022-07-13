@@ -155,7 +155,7 @@ const Preview = () => {
 
   const [cv, setCv] = useState<TCV>(initCV)
 
-  const { refetch: refetchUserData } = useQuery(query.getData, {
+  const { loading, refetch: refetchUserData } = useQuery(query.getData, {
     variables: { login: name, language: getLanguage(), orderBy: 'id' },
     onCompleted: data => {
       const tmp: TCV = initCV
@@ -184,7 +184,9 @@ const Preview = () => {
   return (
     <div className='preview'>
       <div>
-        {name && (
+        {name && loading ? (
+          <p>{getExpression('loading')}</p>
+        ) : (
           <>
             {cv.user && <Title level={2}>{cv.user}</Title>}
             {cv.introduction && <ReactMarkdown>{cv.introduction}</ReactMarkdown>}
