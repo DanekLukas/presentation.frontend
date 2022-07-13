@@ -1,6 +1,7 @@
 import { Button, DatePicker, Form, Input, Select, Space, Table } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
 import { gql, useMutation, useQuery } from '@apollo/client'
+import { networkErrorMessage, setNetworkErrorMessageFalse } from '../App'
 import { setMessage } from '../components/Message/messageActionCreators'
 import { useDispatch } from 'react-redux'
 import React, { useContext, useEffect, useState } from 'react'
@@ -49,6 +50,14 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
   const dispatch = useDispatch()
 
   const keys = Object.keys(columnsI)
+
+  useEffect(() => {
+    if (networkErrorMessage) {
+      dispatch(setMessage(getExpression('anErrorHappend')))
+      setNetworkErrorMessageFalse()
+    }
+    // eslint-disable-next-line
+  }, [networkErrorMessage])
 
   const query = {
     getAllData: gql`
@@ -118,8 +127,7 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
     dispatch(setMessage(inputData.message))
   }
 
-  const { refetch: refetchData } = useQuery(query.getAllData, {
-    skip: true,
+  const { loading: loadingAll, refetch: refetchData } = useQuery(query.getAllData, {
     onCompleted: allData => {
       if (allData[readProc].error) {
         dispatch(setMessage(allData.allArticles.message))
@@ -136,8 +144,7 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
     },
   })
 
-  const { refetch: refetchEdit } = useQuery(query.getData, {
-    skip: true,
+  const { loading, refetch: refetchEdit } = useQuery(query.getData, {
     onCompleted: data => {
       const ret: typeof initValue = {}
       keys.forEach(key => {
@@ -239,6 +246,8 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
 
   return (
     <>
+      {(loading || loadingAll) && <div className='loading'>{getExpression('loading')}</div>}
+      {networkErrorMessage}
       <Table
         onRow={(record, rowIndex) => {
           return {

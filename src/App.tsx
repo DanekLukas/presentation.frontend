@@ -4,6 +4,7 @@ import { ApolloClient, ApolloLink, ApolloProvider, HttpLink, InMemoryCache } fro
 import { Global, css } from '@emotion/react'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
+import { onError } from '@apollo/client/link/error'
 import AppRouter from './AppRouter'
 import LanguageProvider from './contexts/LanguageProvider'
 import UserProvider from './contexts/UserProvider'
@@ -13,9 +14,25 @@ const httpLink = new HttpLink({
   uri: `${window.location.protocol}//${window.location.hostname}/graphql/`,
 })
 
+export let networkErrorMessage = false
+export const setNetworkErrorMessageFalse = () => {
+  networkErrorMessage = false
+}
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    // console.log(graphQLErrors)
+  }
+
+  if (networkError) {
+    networkErrorMessage = !networkErrorMessage
+    // console.log(networkError)
+  }
+})
+
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: ApolloLink.from([httpLink]),
+  link: ApolloLink.from([errorLink, httpLink]),
 })
 
 const App = () => {

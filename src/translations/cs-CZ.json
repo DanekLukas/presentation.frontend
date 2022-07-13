@@ -65,5 +65,6 @@
   "patent": "Patent",
   "number": "Číslo",
   "link": "Odkaz",
-  "welcome": "Vítejte v aplikaci pro správu prezentací.  \nPresentace není dostupná veřejnosti dokud není nastaven **login**."
+  "welcome": "Vítejte v aplikaci pro správu prezentací.  \nPresentace není dostupná veřejnosti dokud není nastaven **login**.",
+  "anErrorHappend": "Chyba v komunikaci, zkuste načíst data znovu."
 }

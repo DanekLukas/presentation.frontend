@@ -66,5 +66,6 @@
   "patent": "Patent",
   "number": "Number",
   "link": "Link",
-  "welcome": "Welcome to application for administration of presentations. Your presentation will not be reachable before setting the **login** property."
+  "welcome": "Welcome to application for administration of presentations. Your presentation will not be reachable before setting the **login** property.",
+  "anErrorHappend": "Load error, try again."
 }
