@@ -2,6 +2,9 @@ import { LanguageContext } from '../contexts/LanguageContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { Menu, Typography } from 'antd'
 import { UserContext } from '../contexts/UserContext'
+import { networkErrorMessage, setNetworkErrorMessageFalse } from '../App'
+import { setMessage } from '../components/Message/messageActionCreators'
+import { useDispatch } from 'react-redux'
 import Language from './Language'
 import Logged from './Logged'
 import Message from '../components/Message'
@@ -17,10 +20,20 @@ const Header = () => {
   const [isAdmin, setIsAdmin] = useState(inRole('ROLE_ADMIN'))
   const navigate = useNavigate()
 
+  const dispatch = useDispatch()
+
   useEffect(() => {
     setIsAdmin(inRole('ROLE_ADMIN'))
     setIsLoggedIn(email !== '')
   }, [email, inRole])
+
+  useEffect(() => {
+    if (networkErrorMessage) {
+      dispatch(setMessage(getExpression('anErrorHappend')))
+      setNetworkErrorMessageFalse()
+    }
+    // eslint-disable-next-line
+  }, [networkErrorMessage])
 
   const logout = () => {
     logoutUser()
@@ -31,6 +44,7 @@ const Header = () => {
     <>
       <Title>{getExpression('danekFamily')}</Title>
       <Message />
+      {networkErrorMessage}
       <LanguageWrapper>
         <Logged />
         <Language />
