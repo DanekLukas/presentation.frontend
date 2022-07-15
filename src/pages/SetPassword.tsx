@@ -1,9 +1,8 @@
 import { Button, Form, Input } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { MessageContext } from '../contexts/MessageContext'
 import { UserContext } from '../contexts/UserContext'
 import { gql, useMutation } from '@apollo/client'
-import { setMessage } from '../components/Message/messageActionCreators'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import React, { useContext, useState } from 'react'
 import styled from '@emotion/styled'
@@ -35,7 +34,7 @@ const SetPassword = ({ token }: Props) => {
   const { loginUser } = useContext(UserContext)
 
   const { getExpression } = useContext(LanguageContext)
-  const dispatch = useDispatch()
+  const { setMessage } = useContext(MessageContext)
 
   const [passwordMutation] = useMutation(mutations.setPasswordMutation, {
     onCompleted: data => {
@@ -49,7 +48,7 @@ const SetPassword = ({ token }: Props) => {
 
         navigate('/admin')
       } else {
-        dispatch(setMessage(getExpression(data.SetPassword?.message)))
+        setMessage(getExpression(data.SetPassword?.message))
       }
     },
   })
@@ -76,7 +75,7 @@ const SetPassword = ({ token }: Props) => {
       })
       navigate('/admin')
     } catch (e) {
-      dispatch(setMessage(getExpression(e.getMessage())))
+      setMessage(getExpression(e.getMessage()))
     }
   }
 

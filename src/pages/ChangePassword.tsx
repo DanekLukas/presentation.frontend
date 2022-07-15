@@ -1,9 +1,8 @@
 import { Button, Form, Input } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { MessageContext } from '../contexts/MessageContext'
 import { UserContext } from '../contexts/UserContext'
 import { gql, useMutation } from '@apollo/client'
-import { setMessage } from '../components/Message/messageActionCreators'
-import { useDispatch } from 'react-redux'
 import React, { useContext, useState } from 'react'
 import styled from '@emotion/styled'
 
@@ -29,20 +28,20 @@ const ChanagePassword = () => {
   const { getUser } = useContext(UserContext)
 
   const { getExpression } = useContext(LanguageContext)
-  const dispatch = useDispatch()
+  const { setMessage } = useContext(MessageContext)
 
   const [passwordMutation] = useMutation(mutations.setPasswordMutation, {
     onError: error => {
-      dispatch(setMessage(error.message))
+      setMessage(error.message)
     },
     onCompleted: data => {
       if (data.SetPassword?.error === 0) {
-        dispatch(setMessage(getExpression('passwordChanged')))
+        setMessage(getExpression('passwordChanged'))
         setOriginalPassword('')
         setPassword('')
         setCheckPassword('')
       } else {
-        dispatch(setMessage(getExpression(data.SetPassword?.message)))
+        setMessage(getExpression(data.SetPassword?.message))
       }
     },
   })
@@ -66,7 +65,7 @@ const ChanagePassword = () => {
         },
       })
     } catch (e) {
-      dispatch(setMessage(getExpression(e.getMessage())))
+      setMessage(getExpression(e.getMessage()))
     }
   }
 

@@ -1,8 +1,7 @@
 import { Button, Form, Input } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { MessageContext } from '../contexts/MessageContext'
 import { gql, useMutation, useQuery } from '@apollo/client'
-import { setMessage } from '../components/Message/messageActionCreators'
-import { useDispatch } from 'react-redux'
 import React, { useContext, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
@@ -38,20 +37,20 @@ const User = () => {
   const [name, setName] = useState<string>()
   const [login, setLogin] = useState<string>()
   const [password, setPassword] = useState<string>()
-  const dispatch = useDispatch()
+  const { setMessage } = useContext(MessageContext)
   const [loginMutation] = useMutation(mutation.login, {
     onError: error => {
-      dispatch(setMessage(error.message))
+      setMessage(error.message)
     },
     onCompleted: data => {
-      dispatch(setMessage(data.setLogin.data))
+      setMessage(data.setLogin.data)
     },
   })
   const { refetch: refetchLogin } = useQuery(query.login, {
     skip: true,
     onCompleted: data => {
       if (data.getLogin.error) {
-        dispatch(setMessage(getExpression(data.getLogin.message)))
+        setMessage(getExpression(data.getLogin.message))
         return
       }
       setName(data.getLogin.data.name)

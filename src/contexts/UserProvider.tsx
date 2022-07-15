@@ -1,8 +1,7 @@
 import { LanguageContext } from './LanguageContext'
+import { MessageContext } from '../contexts/MessageContext'
 import { UserContext } from './UserContext'
 import { gql, useMutation } from '@apollo/client'
-import { setMessage } from '../components/Message/messageActionCreators'
-import { useDispatch } from 'react-redux'
 import React, { useContext, useEffect, useState } from 'react'
 
 const USER_STORAGE_KEY = 'USER'
@@ -39,16 +38,16 @@ export type LoginUserProps = {
 
 const UserProvider = ({ children }: Props) => {
   const { getExpression } = useContext(LanguageContext)
-  const dispatch = useDispatch()
+  const { setMessage } = useContext(MessageContext)
   const [logoutMutation] = useMutation(mutation.logout, {
     onError: error => {
       // console.error(error)
     },
     onCompleted: data => {
       if (data.logout.error === 0) {
-        dispatch(setMessage(getExpression(data.logout.data)))
+        setMessage(getExpression(data.logout.data))
       } else {
-        dispatch(setMessage(getExpression(data.logout.message)))
+        setMessage(getExpression(data.logout.message))
       }
     },
   })

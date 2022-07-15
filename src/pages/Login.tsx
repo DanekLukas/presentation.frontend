@@ -1,10 +1,9 @@
 import { Button, Checkbox, Form, Input } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { MessageContext } from '../contexts/MessageContext'
 import { Typography } from 'antd'
 import { UserContext } from '../contexts/UserContext'
 import { gql, useQuery } from '@apollo/client'
-import { setMessage } from '../components/Message/messageActionCreators'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import React, { useContext, useState } from 'react'
 import styled from '@emotion/styled'
@@ -34,12 +33,12 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(false)
-  const dispatch = useDispatch()
+  const { setMessage } = useContext(MessageContext)
   const { refetch: login } = useQuery(query.login, {
     skip: true,
     onCompleted: data => {
       if (data.Login.error) {
-        dispatch(setMessage(getExpression(data.Login.message)))
+        setMessage(getExpression(data.Login.message))
         return
       }
       loginUser({

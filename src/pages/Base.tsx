@@ -1,8 +1,7 @@
 import { Button, DatePicker, Form, Input, Select, Space, Table } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { MessageContext } from '../contexts/MessageContext'
 import { gql, useMutation, useQuery } from '@apollo/client'
-import { setMessage } from '../components/Message/messageActionCreators'
-import { useDispatch } from 'react-redux'
 import React, { useContext, useEffect, useState } from 'react'
 import moment, { Moment } from 'moment'
 
@@ -46,7 +45,7 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
 
   const [id, setId] = useState<number>()
 
-  const dispatch = useDispatch()
+  const { setMessage } = useContext(MessageContext)
 
   const keys = Object.keys(columnsI)
 
@@ -115,13 +114,13 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
     if (inputData.error === 0) {
       return inputData.data
     }
-    dispatch(setMessage(inputData.message))
+    setMessage(inputData.message)
   }
 
   const { loading: loadingAll, refetch: refetchData } = useQuery(query.getAllData, {
     onCompleted: allData => {
       if (allData[readProc].error) {
-        dispatch(setMessage(allData.allArticles.message))
+        setMessage(allData.allArticles.message)
         return
       }
       const datas: Array<typeof columnsI> = []
@@ -147,7 +146,7 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
 
   const [enterItem] = useMutation(mutation.enterItem, {
     onError: error => {
-      dispatch(setMessage(error.message))
+      setMessage(error.message)
     },
     onCompleted: enterData => {
       const got = processReturnData(enterData[`Enter${table}`])
@@ -155,14 +154,14 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
         setSpecificInputValue('id', got.id)
         refetchData()
       } else {
-        dispatch(setMessage(getExpression('DataNotEntered')))
+        setMessage(getExpression('DataNotEntered'))
       }
     },
   })
 
   const [updateItem] = useMutation(mutation.updateItem, {
     onError: error => {
-      dispatch(setMessage(error.message))
+      setMessage(error.message)
     },
     onCompleted: ItemData => {
       processReturnData(ItemData[`Update${table}`])
@@ -172,7 +171,7 @@ const Base = ({ columns: allColumns, table, readProc }: Props) => {
 
   const [deleteItem] = useMutation(mutation.deleteItem, {
     onError: error => {
-      dispatch(setMessage(error.message))
+      setMessage(error.message)
     },
     onCompleted: ItemData => {
       processReturnData(ItemData[`Delete${table}`])

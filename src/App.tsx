@@ -2,13 +2,11 @@ import './App.less'
 import * as React from 'react'
 import { ApolloClient, ApolloLink, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client'
 import { Global, css } from '@emotion/react'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
 import { onError } from '@apollo/client/link/error'
 import AppRouter from './AppRouter'
 import LanguageProvider from './contexts/LanguageProvider'
+import MessageProvider from './contexts/MessageProvider'
 import UserProvider from './contexts/UserProvider'
-import rootReducer from './components/rootReducer'
 
 const httpLink = new HttpLink({
   uri: `${window.location.protocol}//${window.location.hostname}/graphql/`,
@@ -36,7 +34,6 @@ export const apolloClient = new ApolloClient({
 })
 
 const App = () => {
-  const store = createStore(rootReducer)
   return (
     <>
       <Global
@@ -57,13 +54,13 @@ const App = () => {
         `}
       />
       <ApolloProvider client={apolloClient}>
-        <Provider store={store}>
+        <MessageProvider>
           <LanguageProvider>
             <UserProvider>
               <AppRouter />
             </UserProvider>
           </LanguageProvider>
-        </Provider>
+        </MessageProvider>
       </ApolloProvider>
     </>
   )

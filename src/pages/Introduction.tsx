@@ -1,8 +1,7 @@
 import { Button, Form, Input, Select } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { MessageContext } from '../contexts/MessageContext'
 import { gql, useMutation, useQuery } from '@apollo/client'
-import { setMessage } from '../components/Message/messageActionCreators'
-import { useDispatch } from 'react-redux'
 import React, { useContext, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
@@ -37,21 +36,21 @@ const Introduction = () => {
   const { getExpression } = useContext(LanguageContext)
   const [language, setLanguage] = useState('cs')
   const [content, setContent] = useState<string>()
-  const dispatch = useDispatch()
+  const { setMessage } = useContext(MessageContext)
   const { Option } = Select
   const [introductionMutation] = useMutation(mutation.introduction, {
     onError: error => {
-      dispatch(setMessage(error.message))
+      setMessage(error.message)
     },
     onCompleted: data => {
-      dispatch(setMessage(data.saveIntroduction.data))
+      setMessage(data.saveIntroduction.data)
     },
   })
   const { refetch: refetchIntroduction } = useQuery(query.introduction, {
     variables: { language },
     onCompleted: data => {
       if (data.getIntroduction.error) {
-        dispatch(setMessage(getExpression(data.getIntroduction.message)))
+        setMessage(getExpression(data.getIntroduction.message))
         return
       }
       setContent(data.getIntroduction.data.content)

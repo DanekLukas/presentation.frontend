@@ -1,8 +1,7 @@
 import { Button, Form, Input } from 'antd'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { MessageContext } from '../contexts/MessageContext'
 import { gql, useMutation } from '@apollo/client'
-import { setMessage } from '../components/Message/messageActionCreators'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import React, { useContext, useState } from 'react'
 import isEmail from 'validator/lib/isEmail'
@@ -25,7 +24,7 @@ const Registration = () => {
   const { getExpression, getLanguage } = useContext(LanguageContext)
   const [email, setEmail] = useState('')
 
-  const dispatch = useDispatch()
+  const { setMessage } = useContext(MessageContext)
 
   const [registerMutation] = useMutation(mutation.register, {
     onError: error => {
@@ -33,7 +32,7 @@ const Registration = () => {
     },
     onCompleted: data => {
       if (data.Register.error) {
-        dispatch(setMessage(getExpression(data.Register.message)))
+        setMessage(getExpression(data.Register.message))
       } else {
         navigate('/admin')
       }
@@ -42,7 +41,7 @@ const Registration = () => {
 
   const onFinish = () => {
     if (!isEmail(email)) {
-      dispatch(setMessage(getExpression('notValidEmail')))
+      setMessage(getExpression('notValidEmail'))
       return
     }
     registerMutation({
@@ -51,7 +50,7 @@ const Registration = () => {
         lang: getLanguage(),
       },
     })
-    dispatch(setMessage(getExpression('emailSentRegistration').replace('__email__', email)))
+    setMessage(getExpression('emailSentRegistration').replace('__email__', email))
     return
   }
 

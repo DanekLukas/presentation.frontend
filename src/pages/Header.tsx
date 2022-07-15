@@ -1,13 +1,11 @@
 import { LanguageContext } from '../contexts/LanguageContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { Menu, Typography } from 'antd'
+import { MessageContext } from '../contexts/MessageContext'
 import { UserContext } from '../contexts/UserContext'
 import { networkErrorMessage, setNetworkErrorMessageFalse } from '../App'
-import { setMessage } from '../components/Message/messageActionCreators'
-import { useDispatch } from 'react-redux'
 import Language from './Language'
 import Logged from './Logged'
-import Message from '../components/Message'
 import React, { useContext, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 
@@ -20,7 +18,7 @@ const Header = () => {
   const [isAdmin, setIsAdmin] = useState(inRole('ROLE_ADMIN'))
   const navigate = useNavigate()
 
-  const dispatch = useDispatch()
+  const { messages, setMessage } = useContext(MessageContext)
 
   useEffect(() => {
     setIsAdmin(inRole('ROLE_ADMIN'))
@@ -29,10 +27,9 @@ const Header = () => {
 
   useEffect(() => {
     if (networkErrorMessage) {
-      dispatch(setMessage(getExpression('anErrorHappend')))
+      setMessage(getExpression('anErrorHappend'))
       setNetworkErrorMessageFalse()
     }
-    // eslint-disable-next-line
   }, [networkErrorMessage])
 
   const logout = () => {
@@ -43,7 +40,13 @@ const Header = () => {
   return (
     <>
       <Title>{getExpression('danekFamily')}</Title>
-      <Message />
+      <div className='messages'>
+        {Object.keys(messages)
+          .sort((a, b) => parseInt(a) - parseInt(b))
+          .map((key, index) => (
+            <div key={index}>{messages[parseInt(key) as keyof typeof messages]}</div>
+          ))}
+      </div>
       {networkErrorMessage}
       <LanguageWrapper>
         <Logged />
