@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Menu, Typography } from 'antd'
 import { MessageContext } from '../contexts/MessageContext'
 import { UserContext } from '../contexts/UserContext'
-import { networkErrorMessage, setNetworkErrorMessageFalse } from '../App'
 import Language from './Language'
 import Logged from './Logged'
 import React, { useContext, useEffect, useState } from 'react'
@@ -20,17 +19,14 @@ const Header = () => {
 
   const { messages, setMessage } = useContext(MessageContext)
 
+  // const { networkErrorMessage } = useContext(HttpContext)
+
   useEffect(() => {
     setIsAdmin(inRole('ROLE_ADMIN'))
     setIsLoggedIn(email !== '')
   }, [email, inRole])
 
-  useEffect(() => {
-    if (networkErrorMessage) {
-      setMessage(getExpression('anErrorHappend'))
-      setNetworkErrorMessageFalse()
-    }
-  }, [networkErrorMessage])
+  // useEffect(() => {}, [getExpression, setMessage, networkErrorMessage])
 
   const logout = () => {
     logoutUser()
@@ -47,7 +43,7 @@ const Header = () => {
             <div key={index}>{messages[parseInt(key) as keyof typeof messages]}</div>
           ))}
       </div>
-      {networkErrorMessage}
+      {/* {networkErrorMessage} */}
       <LanguageWrapper>
         <Logged />
         <Language />

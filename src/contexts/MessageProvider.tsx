@@ -6,9 +6,10 @@ type Msg = Record<number, string>
 
 type Props = {
   children: ReactNode
+  fn: React.MutableRefObject<(message: string, timeout?: number) => void>
 }
 
-const MessageProvider = ({ children }: Props) => {
+const MessageProvider = ({ children, fn }: Props) => {
   const [messages, setMessages] = useState<Msg>({})
 
   const setMessage = (message: string, timeout: number = 5000) => {
@@ -28,6 +29,8 @@ const MessageProvider = ({ children }: Props) => {
     )
     setMessages(tmp)
   }
+
+  fn.current = setMessage
 
   return (
     <MessageContext.Provider
